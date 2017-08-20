@@ -4,7 +4,7 @@ const grw = require('../index.js')
 const TIMEOUT = 1
 const LENGTH_SIZE_MIN_VALUE = 0
 
-test('grw is a function, and returns a string', (t) => {
+test('grw is a function, and returns a string', (t) => { // actually a HOF that takes a callback which will be called by a string. for fun.
   t.plan(6)
   let checks = false
   grw((w) => {
