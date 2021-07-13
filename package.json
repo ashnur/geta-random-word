@@ -1,6 +1,6 @@
 {
   "name": "geta-random-word",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "random english word. works in the browser too",
   "main": "index.js",
   "scripts": {
