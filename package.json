@@ -1,6 +1,6 @@
 {
   "name": "geta-random-word",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "random english word. works in the browser too",
   "main": "index.cjs",
   "scripts": {
@@ -25,8 +25,8 @@
   "dependencies": {
     "random-js": "^2.1.0"
   },
- "repository": {
-    "type" : "git",
-    "url" : "https://github.com/ashnur/geta-random-word.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashnur/geta-random-word.git"
   }
 }
