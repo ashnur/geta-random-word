@@ -3,7 +3,7 @@
 ### basic usage
 ```
 // commonjs because 
-const grw = require('geta-random-word)
+const grw = require('geta-random-word')
 
 // async so it won't block (immediately)
 grw((randomWord) => console.log(randomWord)) 
