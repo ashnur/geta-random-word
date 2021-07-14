@@ -274926,7 +274926,7 @@ const list = ["aa",
 "zzzs",
 "kh"
 ]
-const bl = list.sort((a, b) => a - b)
+const bl = list.sort((a, b) => a.length - b.length)
 const minLength = bl[0].length
 const maxLength = bl[bl.length-1].length
 module.exports = { minLength , maxLength , list }

@@ -1,52 +1,43 @@
+'use strict'
+
+// huge list of words
 const words = require("./words.js")
 
-const usedKeys = new Set()
+// random because why reinvent the wheel?
+const Random = require("random-js");
 
-const between = (min, max) => Math.floor(Math.random() * (max - min) + min) 
+// by default
+// words are not unique
+// only a single word is returned
+// there are no length constraints
+const defaultOpts = {
+  count : 1, minLength : words.minLength, maxLength : words.maxLength, defaultSeed: 137, unique: false
+}
 
 const byLength = (min, max) => (str) => {
-  // console.log('cbbbbl', min, max, str, str.length >= min && str.length <= max)
   return str.length >= min && str.length <= max
 }
 
-const has = (ks, k) => {
-  // console.log('==>',ks.has(k), ks, k)
-  return ks.has(k)
+const geta_random_word = (options) => {
+  const { count = defaultOpts.count, 
+          minLength = defaultOpts.minLength, 
+          maxLength = defaultOpts.maxLength,
+          unique = defaultOpts.unique,
+          engine = Random.MersenneTwister19937.seed(defaultOpts.defaultSeed) } = options
+
+  const r = new Random.Random(engine)
+  const rangeCheck = byLength(minLength, maxLength)
+  const list = (unique ? Array.from(new Set(words.list)) : words.list).filter(rangeCheck)
+  const prod = unique ? r.sample(list, count) : r.dice(list.length, count).map(i => list[i])
+
+  return count == 1 ? prod[0] : prod
 }
 
-const uniqueRandom = (min, max) => {
-  const rangeCheck = byLength(min, max)
-  const availableWords = words.list.filter(rangeCheck)
-  let newKey = between(0, words.list.length)
-  while (has(usedKeys, newKey) || ! rangeCheck(words.list[newKey]) ){
-    if ( usedKeys.size > (availableWords.length ) ) {
-      // console.error('not enough words')
-      break
-    }
-    newKey = between(0, words.list.length)
-    // console.log('nk', newKey, min, max, usedKeys.has(newKey))
-  }
-  usedKeys.add(newKey)
-  return newKey
+const grw = (cb, opts = defaultOpts) => {
+  // experiment
+  setImmediate(() => cb(geta_random_word(opts)))
 }
+grw.minLength = defaultOpts.minLength
+grw.maxLength = defaultOpts.maxLength
+module.exports = grw
 
-const defaultOpts = {
-  count : 1, minLength : words.minLength, maxLength : words.maxLength
-}
-
-
-const geta_random_word = ({count = defaultOpts.count, 
-                          minLength = defaultOpts.minLength, 
-                          maxLength = defaultOpts.maxLength }) => {
-  const ws = Array.from(Array(count)).map(() => {
-    const r = uniqueRandom(minLength, maxLength)
-    // console.log('r',r, minLength, maxLength)
-    return words.list[r]
-  })
-
-  return count == 1 ? ws[0] : ws
-}
-
-module.exports = (cb, opts = defaultOpts) => {
-  cb(geta_random_word(opts))
-}
